@@ -1,5 +1,12 @@
 package org.amir.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.Arrays;
+
+@Getter
+@Setter
 /**
  * This is the Course class
  * @author Amir Zismanov
@@ -30,7 +37,13 @@ public class Course {
         this.students = new Student[MAX_STUDENT_NUM];
     }
 
+    @Override
     public String toString() {
-        return null;
+        return "Course{id='" + id + "', courseName='" + courseName + "'}";
+    }
+
+    public String getSummery() {
+        return "Course{id='" + id + "', courseName='" + courseName + "', credit=" + credit + ", teacher=" + teacher
+                + ", department='" + department.getDepartmentName() + "', students=" + SchoolManagementSystem.arrayToString(students) + "}";
     }
 }

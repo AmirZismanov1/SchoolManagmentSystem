@@ -1,5 +1,14 @@
 package org.amir.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
+@Getter
+@Setter
+
 /**
  * This is the Student class
  * @author Amir Zismanov
@@ -26,10 +35,16 @@ public class Student {
         this.lname = lname;
         this.department = department;
         this.id = String.format("S%03d", nextId++);
+        this.courseNum = 0;
         this.courses = new Course[MAX_COURSE_NUM];
     }
 
     public String toString() {
-        return null;
+        return fname + " " + lname;
+    }
+
+    public String getSummery() {
+        return "Student{id='" + id + "', fname='" + fname + "', lname='" + lname + "', department=" + department + ", " + "courseNum=" + courseNum
+                + ", courses=" + SchoolManagementSystem.arrayToString(courses) + "}";
     }
 }

@@ -1,5 +1,11 @@
 package org.amir.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+
 /**
  * This is the Teacher class
  * @author Amir Zismanov
@@ -13,10 +19,6 @@ public class Teacher {
 
     private static int nextId = 1;
 
-    public String toString() {
-        return null;
-    }
-
     /**
      * All argument constructor for this class
      * @param fname
@@ -27,6 +29,15 @@ public class Teacher {
         this.fname = fname;
         this.lname = lname;
         this.department = department;
-        this.id = String.format("S%03d", nextId++);
+        this.id = String.format("T%03d", nextId++);
+    }
+
+    public String toString() {
+        return fname + " " + lname;
+    }
+
+    public String getSummery() {
+        return "Teacher{id='" + id + "', fname='" + fname + "', lname='" + lname + "', department='" + department.getDepartmentName()
+                + "'}";
     }
 }

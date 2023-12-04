@@ -1,5 +1,10 @@
 package org.amir.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 /**
  * This is the Department class
  * @author Amir Zismanov
@@ -19,6 +24,6 @@ public class Department {
         this.id = String.format("D%03d", nextId++);
     }
     public String toString() {
-        return null;
+        return String.format("Department(%s, departmentName='%s')",id, departmentName);
     }
 }
