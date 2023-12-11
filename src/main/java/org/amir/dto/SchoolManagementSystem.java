@@ -225,60 +225,69 @@ public class SchoolManagementSystem {
     }
 
     /**
-     * This method registers a student to a course
+     * This method registers a student to a course unless the studentId or courseId are null, the student has to many courses,
+     * the course has to many students or the student isn't already registered to the course he wants to register to
      * @param studentId
      * @param courseId
      */
     public void registerCourse(String studentId, String courseId) {
-
         if (findStudent(studentId) == null) {
             System.out.println("Cannot find any student match with studentId " + studentId + ", register course for student " + studentId + " failed.");
             return;
 
         }
         else if (findCourse(courseId) == null) {
-            System.out.println("Cannot find any course match with courseId " + courseId + ", register course for student " + courseId + " failed.");
+            System.out.println("Cannot find any student match with courseId " + courseId + ", register course for student " + courseId + " failed.");
             return;
         }
 
         if (findStudent(studentId).getCourseNum() >= 5) {
             System.out.println("Student " + studentId + " has already registered 5 courses, register course for student " + studentId + " failed.");
+            return;
         }
 
         else if (findCourse(courseId).getStudentNum() >= 5) {
             System.out.println("Course " + courseId + " has been fully registered, register course " + courseId + " for student " + studentId + " failed.");
+            return;
         }
 
-        else {
-            Student [] students = findCourse(courseId).getStudents();
-            Course [] courses = findStudent(studentId).getCourses();
-
-            int studentCounter = findStudent(studentId).getCourseNum();
-            int courseCounter = findCourse(courseId).getStudentNum();
-
-            for (int i = 0; i < students.length; i++) {
-                if (students[i] == null) {
-                    students[i] = findStudent(studentId);
-                    courseCounter++;
-                    findCourse(courseId).setStudentNum(courseCounter);
-                    break;
+        for (int i = 0; i < findStudent(studentId).getCourses().length; i++) {
+            if (findStudent(studentId).getCourses()[i] != null) {
+                if (findStudent(studentId).getCourses()[i].getId().equals(findCourse(courseId).getId())) {
+                    System.out.println("Student " + studentId + " has already registered Course " + courseId + ", register course " + courseId + " for student " + studentId + " failed.");
+                    return;
                 }
             }
-
-            for (int i = 0; i < courses.length; i++) {
-                if (courses[i] == null) {
-                    courses[i] = findCourse(courseId);
-                    studentCounter++;
-                    findStudent(studentId).setCourseNum(studentCounter);
-                    break;
-                }
-            }
-            findCourse(courseId).setStudents(students);
-            findStudent(studentId).setCourses(courses);
-            System.out.println("Latest student info: " + findStudent(studentId).getSummery());
-            System.out.println("Latest course info: " + findCourse(courseId).getSummery());
         }
-    }
+
+        Student [] students = findCourse(courseId).getStudents();
+        Course [] courses = findStudent(studentId).getCourses();
+
+        int studentCounter = findStudent(studentId).getCourseNum();
+        int courseCounter = findCourse(courseId).getStudentNum();
+
+        for (int i = 0; i < students.length; i++) {
+            if (students[i] == null) {
+                students[i] = findStudent(studentId);
+                courseCounter++;
+                findCourse(courseId).setStudentNum(courseCounter);
+                break;
+            }
+        }
+
+        for (int i = 0; i < courses.length; i++) {
+            if (courses[i] == null) {
+                courses[i] = findCourse(courseId);
+                studentCounter++;
+                findStudent(studentId).setCourseNum(studentCounter);
+                break;
+            }
+        }
+        findCourse(courseId).setStudents(students);
+        findStudent(studentId).setCourses(courses);
+        System.out.println("Latest student info: " + findStudent(studentId).getSummery());
+        System.out.println("Latest course info: " + findCourse(courseId).getSummery());
+        }
 
     /**
      * This method outputs a string concised version of any array

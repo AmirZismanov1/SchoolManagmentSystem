@@ -30,5 +30,6 @@ public class Main {
         schoolManagementSystem.modifyCourseTeacher("T001", "C001");
 
         schoolManagementSystem.registerCourse("S001", "C001");
+        schoolManagementSystem.registerCourse("S001", "C001");
     }
 }
