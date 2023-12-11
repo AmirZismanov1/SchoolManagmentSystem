@@ -74,7 +74,7 @@ public class SchoolManagementSystem {
      */
     public void printCourses() {
         for (int i = 0; i < courseCallCount; i++) {
-            System.out.println(courses[i]);
+            System.out.println(courses[i].getSummery());
         }
     }
 
@@ -209,17 +209,18 @@ public class SchoolManagementSystem {
      */
     public void modifyCourseTeacher(String teacherId, String courseId) {
         if (findCourse(courseId) == null) {
-            System.out.println("Cannot find any course match with courseId " + courseId + ", modify teacher for course " + courseId + " failed");
+            System.out.println("Cannot find any course match with courseId " + courseId + ", modify teacher for course " + courseId + " failed.");
         }
 
         else if (findTeacher(teacherId) == null) {
-            System.out.println("Cannot find any teacher match with teacherId " + teacherId + ", modify teacher for course " + courseId + " failed");
+            System.out.println("Cannot find any teacher match with teacherId " + teacherId + ", modify teacher for course " + courseId + " failed.");
         }
 
         else {
             findCourse(courseId).setTeacher(findTeacher(teacherId));
-            int number = Integer.parseInt(courseId.substring(courseId.length()-1));
-            System.out.println((courses[number - 1]).getSummery() + " info updated successfully.");
+            int indexTracker = Integer.parseInt(courseId.substring(courseId.length()-1));
+            System.out.println((courses[indexTracker - 1]).getSummery() + " info updated successfully.");
+            indexTracker = 0;
         }
     }
 
@@ -230,6 +231,53 @@ public class SchoolManagementSystem {
      */
     public void registerCourse(String studentId, String courseId) {
 
+        if (findStudent(studentId) == null) {
+            System.out.println("Cannot find any student match with studentId " + studentId + ", register course for student " + studentId + " failed.");
+            return;
+
+        }
+        else if (findCourse(courseId) == null) {
+            System.out.println("Cannot find any course match with courseId " + courseId + ", register course for student " + courseId + " failed.");
+            return;
+        }
+
+        if (findStudent(studentId).getCourseNum() >= 5) {
+            System.out.println("Student " + studentId + " has already registered 5 courses, register course for student " + studentId + " failed.");
+        }
+
+        else if (findCourse(courseId).getStudentNum() >= 5) {
+            System.out.println("Course " + courseId + " has been fully registered, register course " + courseId + " for student " + studentId + " failed.");
+        }
+
+        else {
+            Student [] students = findCourse(courseId).getStudents();
+            Course [] courses = findStudent(studentId).getCourses();
+
+            int studentCounter = findStudent(studentId).getCourseNum();
+            int courseCounter = findCourse(courseId).getStudentNum();
+
+            for (int i = 0; i < students.length; i++) {
+                if (students[i] == null) {
+                    students[i] = findStudent(studentId);
+                    courseCounter++;
+                    findCourse(courseId).setStudentNum(courseCounter);
+                    break;
+                }
+            }
+
+            for (int i = 0; i < courses.length; i++) {
+                if (courses[i] == null) {
+                    courses[i] = findCourse(courseId);
+                    studentCounter++;
+                    findStudent(studentId).setCourseNum(studentCounter);
+                    break;
+                }
+            }
+            findCourse(courseId).setStudents(students);
+            findStudent(studentId).setCourses(courses);
+            System.out.println("Latest student info: " + findStudent(studentId).getSummery());
+            System.out.println("Latest course info: " + findCourse(courseId).getSummery());
+        }
     }
 
     /**
@@ -242,7 +290,7 @@ public class SchoolManagementSystem {
 
         for (Object c : array) {
             if (c != null) {
-                arrayString += c.toString();
+                arrayString += c + ", " ;
             }
         }
         return arrayString + "]";

@@ -39,7 +39,7 @@ public class Course {
 
     @Override
     public String toString() {
-        return "Course{id='" + id + "', courseName='" + courseName + "'}";
+        return courseName;
     }
 
     public String getSummery() {
